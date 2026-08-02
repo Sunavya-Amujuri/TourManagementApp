@@ -18,6 +18,8 @@ public class BookingRequest {
     @NotNull
     private Long tourId;
 
+    private String userEmail;
+
     @NotNull
     @FutureOrPresent
     private LocalDate bookingDate;

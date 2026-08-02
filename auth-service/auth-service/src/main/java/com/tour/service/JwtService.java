@@ -1,5 +1,6 @@
 package com.tour.service;
 
+import com.tour.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -28,9 +29,13 @@ public class JwtService {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(String username) {
-        log.info("Generating JWT token for user: {}", username);
-        return buildToken(new HashMap<>(), username);
+    public String generateToken(User user) {
+        log.info("Generating JWT token for user: {}", user.getEmail());
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put("role", "ROLE_" + user.getRole().getRoleName());
+
+        return buildToken(claims, user.getEmail());
     }
 
     private String buildToken(Map<String, Object> extraClaims, String username) {

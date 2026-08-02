@@ -14,16 +14,16 @@ import java.time.LocalDateTime;
 public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository repository;
+    private final EmailService emailService;
 
     @Override
     public NotificationResponse sendNotification(NotificationRequest request) {
 
-        System.out.println("================================");
-        System.out.println("Sending Notification");
-        System.out.println("To : " + request.getRecipient());
-        System.out.println("Subject : " + request.getSubject());
-        System.out.println("Message : " + request.getMessage());
-        System.out.println("================================");
+        emailService.sendEmail(
+                request.getRecipient(),
+                request.getSubject(),
+                request.getMessage()
+        );
 
         Notification notification = new Notification();
 

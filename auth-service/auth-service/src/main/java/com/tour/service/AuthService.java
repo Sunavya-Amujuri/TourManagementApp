@@ -36,20 +36,28 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setContactNumber(request.getContactNumber());
 
-        Role role = roleRepository.findByRoleName("USER")
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+        String roleName = request.getRole();
+
+        if (roleName == null || roleName.isBlank()) {
+            roleName = "USER";
+        }
+
+        Role role = roleRepository.findByRoleName(roleName) .orElseThrow(() -> new RuntimeException("Role not found"));
 
         user.setRole(role);
 
         userRepository.save(user);
 
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user);
 
         return new AuthResponse(token);
     }
 
     // Login User
     public AuthResponse login(LoginRequest request) {
+
+        System.out.println("========== LOGIN START ==========");
+        System.out.println("Email: " + request.getEmail());
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -58,11 +66,31 @@ public class AuthService {
                 )
         );
 
+        System.out.println("Authentication successful");
+
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String token = jwtService.generateToken(user.getEmail());
+        System.out.println("User found: " + user.getEmail());
+
+        String token = jwtService.generateToken(user);
+
+        System.out.println("Token generated");
 
         return new AuthResponse(token);
+
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        request.getEmail(),
+//                        request.getPassword()
+//                )
+//        );
+//
+//        User user = userRepository.findByEmail(request.getEmail())
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        String token = jwtService.generateToken(user);
+//
+//        return new AuthResponse(token);
     }
 }

@@ -22,6 +22,9 @@ public class LodgingServiceHelper {
 
         System.out.println("Lodging fallback executed!");
 
+        System.out.println("Reason: " + ex.getMessage());
+        ex.printStackTrace();
+
         LodgingResponse response = new LodgingResponse();
 
         response.setLodgingId(lodgingId);

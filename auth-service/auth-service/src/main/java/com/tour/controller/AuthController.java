@@ -4,6 +4,7 @@ import com.tour.dto.AuthResponse;
 import com.tour.dto.LoginRequest;
 import com.tour.dto.RegisterRequest;
 import com.tour.service.AuthService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;

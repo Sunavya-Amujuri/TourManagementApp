@@ -2,7 +2,6 @@ package com.tour.service;
 
 import com.tour.client.TransportClient;
 import com.tour.dto.TransportResponse;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +22,9 @@ public class TransportServiceHelper {
     public TransportResponse transportFallback(Long transportId, Exception ex) {
 
         System.out.println("Transport fallback executed!");
+
+        System.out.println("Reason: " + ex.getMessage());
+        ex.printStackTrace();
 
         TransportResponse response = new TransportResponse();
 

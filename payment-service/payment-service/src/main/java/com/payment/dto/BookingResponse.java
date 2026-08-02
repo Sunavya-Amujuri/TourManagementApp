@@ -10,6 +10,7 @@ public class BookingResponse {
     private Integer numberOfPersons;
     private Double totalAmount;
     private String bookingStatus;
+    private String userEmail;
 
     public Long getBookingId() {
         return bookingId;
@@ -59,11 +60,20 @@ public class BookingResponse {
         this.totalAmount = totalAmount;
     }
 
-    public BookingResponse(Integer numberOfPersons, Long bookingId, Long userId, Long tourId, LocalDate bookingDate, Double totalAmount, String bookingStatus) {
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public BookingResponse(Integer numberOfPersons, Long bookingId, Long userId, Long tourId, LocalDate bookingDate, Double totalAmount, String bookingStatus, String userEmail) {
         this.numberOfPersons = numberOfPersons;
         this.bookingId = bookingId;
         this.userId = userId;
         this.tourId = tourId;
+        this.userEmail = userEmail;
         this.bookingDate = bookingDate;
         this.totalAmount = totalAmount;
         this.bookingStatus = bookingStatus;
@@ -84,6 +94,7 @@ public class BookingResponse {
                 ", userId=" + userId +
                 ", tourId=" + tourId +
                 ", bookingDate=" + bookingDate +
+                ", userEmail='" + userEmail + '\'' +
                 ", numberOfPersons=" + numberOfPersons +
                 ", totalAmount=" + totalAmount +
                 ", bookingStatus='" + bookingStatus + '\'' +

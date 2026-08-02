@@ -15,6 +15,8 @@ public class BookingResponse {
 
     private Long tourId;
 
+    private String userEmail;
+
     private LocalDate bookingDate;
 
     private Integer numberOfPersons;

@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @FeignClient(name = "BOOKING-SERVICE")
 public interface BookingClient {
-    @GetMapping("/bookings/{id}")
+    @GetMapping("/api/bookings/{id}")
     BookingResponse getBookingById(@PathVariable Long id);
 
-    @PutMapping("/bookings/{id}/confirm")
+    @PutMapping("/api/bookings/{id}/confirm")
     String confirmBooking(@PathVariable Long id);
 }

@@ -27,4 +27,6 @@ public class Booking {
     private Double totalAmount;
 
     private String bookingStatus;
+
+    private String userEmail;
 }

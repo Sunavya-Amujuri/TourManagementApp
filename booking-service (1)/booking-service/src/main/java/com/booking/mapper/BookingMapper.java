@@ -9,6 +9,7 @@ public class BookingMapper {
         return Booking.builder()
                 .userId(request.getUserId())
                 .tourId(request.getTourId())
+                .userEmail(request.getUserEmail())
                 .bookingDate(request.getBookingDate())
                 .numberOfPersons(request.getNumberOfPersons())
                 .build();
@@ -19,6 +20,7 @@ public class BookingMapper {
                 .bookingId(booking.getBookingId())
                 .userId(booking.getUserId())
                 .tourId(booking.getTourId())
+                .userEmail(booking.getUserEmail())   // ADD THIS
                 .bookingDate(booking.getBookingDate())
                 .numberOfPersons(booking.getNumberOfPersons())
                 .totalAmount(booking.getTotalAmount())

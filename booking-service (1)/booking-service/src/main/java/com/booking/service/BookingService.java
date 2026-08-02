@@ -18,7 +18,6 @@ import java.util.List;
 public class BookingService {
     private final BookingRepository bookingRepository;
     private final TourClient tourClient;
-    private final NotificationClient notificationClient;
 
     public BookingResponse createBooking(BookingRequest request) {
 
@@ -47,19 +46,6 @@ public class BookingService {
 
         // Save booking
         Booking savedBooking = bookingRepository.save(booking);
-
-        NotificationRequest notification = new NotificationRequest();
-
-        notification.setBookingId(savedBooking.getBookingId());
-        notification.setRecipient("user@gmail.com");
-        notification.setSubject("Booking Confirmed");
-        notification.setMessage(
-                "Your booking for " +
-                        tour.getTourName() +
-                        " has been confirmed."
-        );
-
-        notificationClient.sendNotification(notification);
 
         return BookingMapper.toResponse(savedBooking);
     }

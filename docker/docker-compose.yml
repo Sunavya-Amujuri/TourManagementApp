@@ -1,0 +1,249 @@
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Sunavya@1234
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    networks:
+      - tour-network
+
+
+  redis:
+    image: redis:7
+    container_name: redis
+    restart: always
+
+    ports:
+      - "6379:6379"
+
+    networks:
+      - tour-network
+
+
+  service-registry:
+    build:
+      context: "../service-registry (1)/service-registry"
+      dockerfile: Dockerfile
+
+    container_name: service-registry
+
+    ports:
+      - "8761:8761"
+
+    restart: always
+
+    networks:
+      - tour-network
+
+
+  transport-service:
+    build:
+      context: "../transport-service/transport-service"
+      dockerfile: Dockerfile
+
+    container_name: transport-service
+
+    ports:
+      - "8084:8084"
+
+    restart: always
+
+    depends_on:
+      - postgres
+      - service-registry
+
+    networks:
+      - tour-network
+
+
+  auth-service:
+    build:
+      context: "../auth-service/auth-service"
+      dockerfile: Dockerfile
+
+    container_name: auth-service
+
+    ports:
+      - "8081:8081"
+
+    restart: always
+
+    depends_on:
+      - postgres
+      - service-registry
+
+    networks:
+      - tour-network
+
+
+  location-service:
+    build:
+      context: "../location-service/location-service"
+      dockerfile: Dockerfile
+
+    container_name: location-service
+
+    ports:
+      - "8082:8082"
+
+    restart: always
+
+    depends_on:
+      - postgres
+      - service-registry
+
+    networks:
+      - tour-network
+
+
+  lodging-service:
+    build:
+      context: "../lodging-service/lodging-service"
+      dockerfile: Dockerfile
+
+    container_name: lodging-service
+
+    ports:
+    - "8083:8083"
+
+    restart: always
+
+    depends_on:
+    - postgres
+    - service-registry
+
+    networks:
+    - tour-network
+
+
+  tour-service:
+    build:
+      context: "../tour service/tour-service"
+      dockerfile: Dockerfile
+
+    container_name: tour-service
+
+    ports:
+      - "8085:8085"
+
+    restart: always
+
+    depends_on:
+      - postgres
+      - service-registry
+      - location-service
+      - lodging-service
+      - transport-service
+
+    networks:
+      - tour-network
+
+
+  booking-service:
+    build:
+      context: "../booking-service (1)/booking-service"
+      dockerfile: Dockerfile
+
+    container_name: booking-service
+
+    ports:
+      - "8086:8086"
+
+    restart: always
+
+    depends_on:
+      - postgres
+      - service-registry
+      - tour-service
+
+    networks:
+      - tour-network
+
+
+  payment-service:
+    build:
+      context: "../payment-service/payment-service"
+      dockerfile: Dockerfile
+
+    container_name: payment-service
+
+    ports:
+      - "8087:8087"
+
+    restart: always
+
+    depends_on:
+      - postgres
+      - service-registry
+      - booking-service
+
+    networks:
+      - tour-network
+
+
+  notification-service:
+    build:
+      context: "../notification-service/notification-service"
+      dockerfile: Dockerfile
+
+    container_name: notification-service
+
+    ports:
+      - "8088:8088"
+
+    restart: always
+
+    depends_on:
+      - postgres
+      - service-registry
+
+    networks:
+      - tour-network
+
+
+  api-gateway:
+    build:
+      context: "../api-gateway (1)/api-gateway"
+      dockerfile: Dockerfile
+
+    container_name: api-gateway
+
+    ports:
+      - "8765:8765"
+
+    restart: always
+
+    depends_on:
+      - service-registry
+      - auth-service
+      - location-service
+      - lodging-service
+      - transport-service
+      - tour-service
+      - booking-service
+      - payment-service
+      - notification-service
+
+    networks:
+      - tour-network
+
+
+volumes:
+  postgres-data:
+
+
+networks:
+  tour-network:
+    driver: bridge

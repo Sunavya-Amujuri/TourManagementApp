@@ -1,0 +1,8 @@
+CREATE DATABASE auth_db;
+CREATE DATABASE tourdb;
+CREATE DATABASE locationdb;
+CREATE DATABASE lodgingdb;
+CREATE DATABASE transportdb;
+CREATE DATABASE bookingdb;
+CREATE DATABASE paymentdb;
+CREATE DATABASE notificationdb;

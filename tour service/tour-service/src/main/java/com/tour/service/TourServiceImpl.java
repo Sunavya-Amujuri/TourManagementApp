@@ -1,8 +1,5 @@
 package com.tour.service;
 
-import com.tour.client.LocationClient;
-import com.tour.client.LodgingClient;
-import com.tour.client.TransportClient;
 import com.tour.dto.*;
 import com.tour.entity.Tour;
 import com.tour.exception.ResourceNotFoundException;
@@ -10,7 +7,6 @@ import com.tour.mapper.TourMapper;
 import com.tour.repository.TourRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 import java.util.List;
 

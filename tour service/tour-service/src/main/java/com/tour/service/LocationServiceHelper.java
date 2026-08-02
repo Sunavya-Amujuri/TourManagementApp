@@ -22,6 +22,9 @@ public class LocationServiceHelper {
 
         System.out.println("Location fallback executed!");
 
+        System.out.println("Reason: " + ex.getMessage());
+        ex.printStackTrace();
+
         LocationResponse response = new LocationResponse();
 
         response.setLocationId(locationId);

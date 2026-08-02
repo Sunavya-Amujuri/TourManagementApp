@@ -3,22 +3,28 @@ package com.transport.controller;
 import com.transport.dto.TransportRequest;
 import com.transport.dto.TransportResponse;
 import com.transport.service.TransportService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/transports")
+@SecurityRequirement(name = "bearerAuth")
+@RequiredArgsConstructor
 public class TransportController {
     @Autowired
     private TransportService transportService;
 
     // Create Transport
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<TransportResponse> createTransport(@Valid @RequestBody TransportRequest request) {
         TransportResponse response = transportService.createTransport(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -26,6 +32,7 @@ public class TransportController {
 
     // Get All Transports
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<TransportResponse>> getAllTransports() {
         List<TransportResponse> transports = transportService.getAllTransports();
         return new ResponseEntity<>(transports, HttpStatus.OK);
@@ -33,6 +40,7 @@ public class TransportController {
 
     // Get Transport By ID
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<TransportResponse> getTransportById(@PathVariable Long id) {
         TransportResponse response = transportService.getTransportById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -40,6 +48,7 @@ public class TransportController {
 
     // Update Transport
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<TransportResponse> updateTransport(@PathVariable Long id,
                                                              @Valid @RequestBody TransportRequest request) {
         TransportResponse response = transportService.updateTransport(id, request);
@@ -48,6 +57,7 @@ public class TransportController {
 
     // Delete Transport
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteTransport(@PathVariable Long id) {
         transportService.deleteTransport(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
