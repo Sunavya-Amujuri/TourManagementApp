@@ -24,6 +24,8 @@ spring:
       enabled: false
 
 eureka:
+  instance:
+    hostname: ${EUREKA_HOSTNAME}
   client:
     service-url:
       defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
@@ -80,10 +82,4 @@ resilience4j:
       transportService:
         maxAttempts: 3
         waitDuration: 2s
-
-# Railway Eureka hostname
-eureka:
-  instance:
-    hostname: ${EUREKA_HOSTNAME}
-
 
