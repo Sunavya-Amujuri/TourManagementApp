@@ -80,3 +80,10 @@ resilience4j:
       transportService:
         maxAttempts: 3
         waitDuration: 2s
+
+# Railway Eureka hostname
+eureka:
+  instance:
+    hostname: ${EUREKA_HOSTNAME}
+
+
